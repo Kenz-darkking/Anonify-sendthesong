@@ -44,7 +44,7 @@ function initCarouselScrolling() {
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - carousel.offsetLeft;
-            const walk = (x - startX) * 1;
+            const walk = (x - startX) * 1000000000000;
             carousel.scrollLeft = scrollLeft - walk;
         });
     });
