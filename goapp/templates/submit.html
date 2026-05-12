@@ -1,0 +1,65 @@
+{{ define "submit.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tell Your Story - SendTheSong</title>
+	<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+	<nav class="navbar">
+		<div class="nav-container">
+			<a href="/" class="logo">sendthesong</a>
+			<div class="nav-menu">
+				<a href="/" class="nav-link">Home</a>
+				<a href="/submit" class="nav-link active">Tell Your Story</a>
+				<a href="/browse" class="nav-link">Browse</a>
+				<a href="/history" class="nav-link">History</a>
+				<a href="/support" class="nav-link">Support</a>
+			</div>
+		</div>
+	</nav>
+
+	<section class="form-section">
+		<div class="form-container">
+			<h1>Tell Your Story</h1>
+			<p class="form-subtitle">Send an anonymous message with a song</p>
+
+			{{ if .Error }}
+				<div class="alert alert-error">{{ .Error }}</div>
+			{{ end }}
+
+			{{ if .Message }}
+				<div class="alert alert-success">{{ .Message }}</div>
+			{{ end }}
+
+			<form method="POST" class="message-form">
+				<div class="form-group">
+					<label for="to_name">To:</label>
+					<input type="text" id="to_name" name="to_name" placeholder="Enter recipient name or nickname" required>
+				</div>
+
+				<div class="form-group">
+					<label for="message">Your Message:</label>
+					<textarea id="message" name="message" rows="8" placeholder="Write your untold words here..." required></textarea>
+				</div>
+
+				<div class="form-group">
+					<label for="song_link">Paste Song Link:</label>
+					<input type="url" id="song_link" name="song_link" placeholder="Paste a Spotify track, YouTube song, or direct audio link" required>
+					<p class="playlist-help">Spotify and YouTube links will be embedded. Direct audio links will play as audio on the site.</p>
+				</div>
+
+				<button type="submit" class="btn btn-primary btn-submit">Publish Message 🎵</button>
+			</form>
+		</div>
+	</section>
+
+	<footer class="footer">
+		<p>&copy; 2024 SendTheSong. This is an anonymous platform. We do not store personal identity.</p>
+	</footer>
+</body>
+</html>
+{{ end }}

@@ -1,0 +1,67 @@
+{{ define "support.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Support - SendTheSong</title>
+	<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+	<nav class="navbar">
+		<div class="nav-container">
+			<a href="/" class="logo">sendthesong</a>
+			<div class="nav-menu">
+				<a href="/" class="nav-link">Home</a>
+				<a href="/submit" class="nav-link">Tell Your Story</a>
+				<a href="/browse" class="nav-link">Browse</a>
+				<a href="/history" class="nav-link">History</a>
+				<a href="/support" class="nav-link active">Support</a>
+			</div>
+		</div>
+	</nav>
+
+	<section class="support-section">
+		<div class="support-container">
+			<h1>Support & FAQ</h1>
+			<p class="section-subtitle">Everything you need to know about SendTheSong</p>
+
+			<div class="faq-section">
+				<h2>Frequently Asked Questions</h2>
+				<div class="faq-item"><h3 class="faq-question">❓ What is SendTheSong?</h3><p class="faq-answer">SendTheSong is a platform for sharing anonymous heartfelt messages paired with songs from Spotify. It's a creative way to express untold emotions and connect with others through music and words.</p></div>
+				<div class="faq-item"><h3 class="faq-question">🎵 Can I really send anonymous messages?</h3><p class="faq-answer">Yes! SendTheSong is completely anonymous. We don't store any sender information. The only information recorded is the recipient's name, the message, and the song details.</p></div>
+				<div class="faq-item"><h3 class="faq-question">🔍 How do I find messages sent to me?</h3><p class="faq-answer">Go to the "Browse" page and search for your name (or any name you'd like). All messages with that recipient name will appear.</p></div>
+				<div class="faq-item"><h3 class="faq-question">🎶 Where do the songs come from?</h3><p class="faq-answer">All songs are sourced from Spotify's massive music library. You can search for any song and add it to your message.</p></div>
+				<div class="faq-item"><h3 class="faq-question">💾 Are my messages saved forever?</h3><p class="faq-answer">Yes, all messages are saved and can be found by searching the recipient's name. They're part of the platform's history.</p></div>
+				<div class="faq-item"><h3 class="faq-question">🚫 Can I delete my message?</h3><p class="faq-answer">Currently, messages cannot be deleted once published. Please think carefully before sending!</p></div>
+				<div class="faq-item"><h3 class="faq-question">📱 Is SendTheSong mobile-friendly?</h3><p class="faq-answer">Yes! The entire platform is designed to work beautifully on mobile devices.</p></div>
+				<div class="faq-item"><h3 class="faq-question">🛡️ Is my privacy protected?</h3><p class="faq-answer">Absolutely. This is an anonymous platform. We do not store personal identity of senders.</p></div>
+			</div>
+
+			<div class="contact-section">
+				<h2>Get in Touch</h2>
+				{{ if .Message }}<div class="alert alert-success">{{ .Message }}</div>{{ end }}
+				{{ if .Error }}<div class="alert alert-error">{{ .Error }}</div>{{ end }}
+				<form class="contact-form" method="POST" action="/support">
+					<div class="form-group"><label for="contact_name">Your Name:</label><input type="text" id="contact_name" name="name" placeholder="Your name (optional)"></div>
+					<div class="form-group"><label for="contact_email">Email:</label><input type="email" id="contact_email" name="email" placeholder="your@email.com" required></div>
+					<div class="form-group"><label for="contact_message">Message:</label><textarea id="contact_message" name="message" rows="5" placeholder="Tell us what's on your mind..." required></textarea></div>
+					<button type="submit" class="btn btn-primary">Send Message 📧</button>
+				</form>
+			</div>
+
+			<div class="privacy-notice">
+				<h3>🔒 Privacy Notice</h3>
+				<p><strong>This is an anonymous platform. We do not store personal identity.</strong></p>
+				<p>When you send messages, we only collect: recipient name, message content, and song information. We never collect sender information.</p>
+			</div>
+		</div>
+	</section>
+
+	<footer class="footer">
+		<p>&copy; 2024 SendTheSong. This is an anonymous platform. We do not store personal identity.</p>
+	</footer>
+</body>
+</html>
+{{ end }}

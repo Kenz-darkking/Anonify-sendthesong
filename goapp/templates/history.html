@@ -1,0 +1,77 @@
+{{ define "history.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>History - SendTheSong</title>
+	<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+	<nav class="navbar">
+		<div class="nav-container">
+			<a href="/" class="logo">sendthesong</a>
+			<div class="nav-menu">
+				<a href="/" class="nav-link">Home</a>
+				<a href="/submit" class="nav-link">Tell Your Story</a>
+				<a href="/browse" class="nav-link">Browse</a>
+				<a href="/history" class="nav-link active">History</a>
+				<a href="/support" class="nav-link">Support</a>
+			</div>
+		</div>
+	</nav>
+
+	<section class="history-section">
+		<div class="history-container">
+			<h1>All Messages History</h1>
+			<p class="section-subtitle">Every untold story shared through song</p>
+
+			<div class="sort-options">
+				<a href="/history?sort=latest" class="sort-btn {{ if eq .SortBy "latest" }}active{{ end }}">📅 Latest</a>
+				<a href="/history?sort=oldest" class="sort-btn {{ if eq .SortBy "oldest" }}active{{ end }}">🕐 Oldest</a>
+			</div>
+
+			<div class="messages-feed">
+				{{ if not .Messages }}
+					<div class="no-messages"><p>No messages yet. Be the first to share your story!</p></div>
+				{{ else }}
+					{{ range .Messages }}
+						<div class="message-card message-card-feed">
+							<div class="card-header">
+								<span class="card-to">To: {{ .ToName }}</span>
+								<span class="card-date">{{ formatDate .CreatedAt }}</span>
+							</div>
+							<div class="card-content"><p class="card-message">{{ trimMessage .Message }}</p></div>
+							<div class="card-footer">
+								{{ if .SongThumbnail.String }}<img loading="lazy" src="{{ .SongThumbnail.String }}" alt="Album art" class="album-thumb">{{ end }}
+								<div class="song-info">
+									<div class="song-title">{{ .SongTitle.String }}</div>
+									<div class="song-artist">{{ .SongSource.String }}</div>
+								</div>
+								<img src="/assets/spotify-logo.png" alt="Spotify" class="spotify-icon">
+							</div>
+							<a href="/detail/{{ .ID }}" class="card-link"></a>
+						</div>
+					{{ end }}
+
+					{{ if gt .TotalPages 1 }}
+						<div class="pagination">
+							{{ if gt .Page 1 }}<a class="page-link" href="/history?sort={{ .SortBy }}&page={{ sub .Page 1 }}">« Prev</a>{{ end }}
+							{{ range .PageLinks }}
+								{{ if eq . $.Page }}<span class="page-link active">{{ . }}</span>{{ else }}<a class="page-link" href="/history?sort={{ $.SortBy }}&page={{ . }}">{{ . }}</a>{{ end }}
+							{{ end }}
+							{{ if lt .Page .TotalPages }}<a class="page-link" href="/history?sort={{ .SortBy }}&page={{ add .Page 1 }}">Next »</a>{{ end }}
+						</div>
+					{{ end }}
+				{{ end }}
+			</div>
+		</div>
+	</section>
+
+	<footer class="footer">
+		<p>&copy; 2024 SendTheSong. This is an anonymous platform. We do not store personal identity.</p>
+	</footer>
+</body>
+</html>
+{{ end }}

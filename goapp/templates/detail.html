@@ -1,0 +1,93 @@
+{{ define "detail.html" }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{{ if .MessageItem }}Message for {{ .MessageItem.ToName }}{{ else }}Message{{ end }} - SendTheSong</title>
+	<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+	<nav class="navbar">
+		<div class="nav-container">
+			<a href="/" class="logo">sendthesong</a>
+			<div class="nav-menu">
+				<a href="/" class="nav-link">Home</a>
+				<a href="/submit" class="nav-link">Tell Your Story</a>
+				<a href="/browse" class="nav-link">Browse</a>
+				<a href="/history" class="nav-link">History</a>
+				<a href="/support" class="nav-link">Support</a>
+			</div>
+		</div>
+	</nav>
+
+	<section class="detail-section">
+		<div class="detail-container">
+			{{ if .Error }}
+				<div class="alert alert-error">{{ .Error }}</div>
+				<a href="/browse" class="btn btn-secondary">← Back to Browse</a>
+			{{ else if .MessageItem }}
+				<div class="detail-letter">
+					<div class="letter-header">
+						<h1>To: {{ .MessageItem.ToName }}</h1>
+						<div class="letter-meta">
+							<span class="letter-date">{{ formatDate .MessageItem.CreatedAt }}</span>
+							<button class="btn-share" id="shareBtn" title="Copy link">📋 Share</button>
+						</div>
+					</div>
+
+					<div class="letter-content">
+						<p class="letter-message">{{ .MessageItem.Message }}</p>
+					</div>
+
+					{{ if .MessageItem.SongThumbnail.String }}
+						<div class="detail-album-section">
+							<img src="{{ .MessageItem.SongThumbnail.String }}" alt="Album Art" class="detail-album-art">
+						</div>
+					{{ end }}
+
+					<div class="spotify-player-section">
+						<div class="player-info">
+							<h3>{{ .MessageItem.SongTitle.String }}</h3>
+							<p>{{ .MessageItem.SongSource.String }}</p>
+						</div>
+
+						{{ if eq .MessageItem.SongSource.String "audio" }}
+							<audio controls style="width:100%;" src="{{ .MessageItem.SongAudioURL.String }}"></audio>
+						{{ else if .MessageItem.SongEmbedURL.String }}
+							<iframe style="border-radius:12px" src="{{ .MessageItem.SongEmbedURL.String }}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+						{{ end }}
+					</div>
+
+					<div class="detail-actions">
+						<a href="/browse" class="btn btn-secondary">← Back to Browse</a>
+						<a href="/" class="btn btn-secondary">Home</a>
+					</div>
+				</div>
+			{{ end }}
+		</div>
+	</section>
+
+	<footer class="footer">
+		<p>&copy; 2024 SendTheSong. This is an anonymous platform. We do not store personal identity.</p>
+	</footer>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const shareBtn = document.getElementById('shareBtn');
+			if(shareBtn) {
+				shareBtn.addEventListener('click', function() {
+					const url = window.location.href;
+					navigator.clipboard.writeText(url).then(() => {
+						alert('Link copied to clipboard! 🎵');
+					}).catch(() => {
+						alert('Failed to copy link');
+					});
+				});
+			}
+		});
+	</script>
+</body>
+</html>
+{{ end }}
